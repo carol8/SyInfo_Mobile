@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SyInfo</string>
+    <string name="item_syinfo_default_category">CPU</string>
+</resources>
