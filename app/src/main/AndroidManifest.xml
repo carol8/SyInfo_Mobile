@@ -14,13 +14,13 @@
         android:theme="@style/Theme.SyInfo"
         tools:targetApi="31">
         <activity
-            android:name=".controller.main.MainActivity"
+            android:name=".view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.ResultActivity"/>
     </application>
 </manifest>

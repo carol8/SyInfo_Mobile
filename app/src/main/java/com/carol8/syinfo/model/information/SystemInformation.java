@@ -24,6 +24,16 @@ public class SystemInformation implements ComponentInformation {
         this.informations = getSystemInfo(context);
     }
 
+    @Override
+    public Item getTag() {
+        return tag;
+    }
+
+    @Override
+    public List<Item> getInformations() {
+        return informations;
+    }
+
     private List<Item> getSystemInfo(Context context){
         List<Item> result = new ArrayList<>();
 
@@ -57,15 +67,5 @@ public class SystemInformation implements ComponentInformation {
 
         Collections.sort(result);
         return result;
-    }
-
-    @Override
-    public Item getTag() {
-        return tag;
-    }
-
-    @Override
-    public List<Item> getInformations() {
-        return informations;
     }
 }

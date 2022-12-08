@@ -18,6 +18,16 @@ public class StorageInformation implements ComponentInformation{
         this.informations = getStorageInfo(context);
     }
 
+    @Override
+    public Item getTag() {
+        return this.tag;
+    }
+
+    @Override
+    public List<Item> getInformations() {
+        return this.informations;
+    }
+
     private List<Item> getStorageInfo(Context context){
         List<Item> result = new ArrayList<>();
 
@@ -30,15 +40,5 @@ public class StorageInformation implements ComponentInformation{
         result.add(new Item("Availiable Storage", List.of(decimalFormat.format(availableSize / 0x40000000L) + " GB (" + Math.round(percentageAvailable) + "%)")));
 
         return result;
-    }
-
-    @Override
-    public Item getTag() {
-        return this.tag;
-    }
-
-    @Override
-    public List<Item> getInformations() {
-        return this.informations;
     }
 }

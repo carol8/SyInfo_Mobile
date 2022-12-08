@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">SyInfo</string>
     <string name="item_syinfo_default_category">CPU</string>
+
+    <string name="benchmarks_hint_text_view">Select the benchmarks that will run</string>
+
+    <string name="benchmark_start_button_stopped">Start Benchmarks</string>
+    <string name="benchmark_start_button_running">Stop Benchmarks</string>
+    <string name="item_label_placeholder">property</string>
 </resources>

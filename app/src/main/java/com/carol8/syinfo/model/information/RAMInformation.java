@@ -19,6 +19,16 @@ public class RAMInformation implements ComponentInformation{
         this.informations = getRAMInfo(context);
     }
 
+    @Override
+    public Item getTag() {
+        return this.tag;
+    }
+
+    @Override
+    public List<Item> getInformations() {
+        return this.informations;
+    }
+
     private List<Item> getRAMInfo(Context context){
         List<Item> result = new ArrayList<>();
 
@@ -32,15 +42,5 @@ public class RAMInformation implements ComponentInformation{
         result.add(new Item("Availiable RAM", List.of(Math.round(availableMegs) + " MB (" + Math.round(percentAvail) + "%)")));
 
         return result;
-    }
-
-    @Override
-    public Item getTag() {
-        return this.tag;
-    }
-
-    @Override
-    public List<Item> getInformations() {
-        return this.informations;
     }
 }

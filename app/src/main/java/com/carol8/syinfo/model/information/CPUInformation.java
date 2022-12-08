@@ -28,8 +28,18 @@ public class CPUInformation implements ComponentInformation {
     private static final Map<Integer, Map<Integer, Integer>> lastTises = new HashMap<>();
 
     public CPUInformation() {
-        this.tag = new Item("CPU", new ArrayList<>());
+        this.tag = new Item("CPU");
         this.informations = getCPUInfo();
+    }
+
+    @Override
+    public Item getTag() {
+        return this.tag;
+    }
+
+    @Override
+    public List<Item> getInformations() {
+        return this.informations;
     }
 
     private List<Item> getCPUInfo(){
@@ -61,6 +71,7 @@ public class CPUInformation implements ComponentInformation {
             }
         }
 
+        bufferedReader.close();
         return result;
     }
 
@@ -83,6 +94,7 @@ public class CPUInformation implements ComponentInformation {
             processors = new boolean[Integer.parseInt(read.split("-")[1]) + 1];
         }
         result.add(new Item("Cores", List.of(String.valueOf(processors.length))));
+        bufferedReader.close();
 
         bufferedReader = new BufferedReader(new FileReader(CPU_ONLINE));
         while((read = bufferedReader.readLine()) != null){
@@ -98,6 +110,7 @@ public class CPUInformation implements ComponentInformation {
                 }
             }
         }
+        bufferedReader.close();
 
         result.add(new Item("Core number \\ Property", List.of("Status", "Min freq", "Max freq", "Current freq", "Scheduler")));
 
@@ -142,18 +155,12 @@ public class CPUInformation implements ComponentInformation {
                                                         , String.valueOf(maxfreq)
                                                         , String.valueOf(currentFreq)
                                                         , scheduler)));
+            bufferedReaderMin.close();
+            bufferedReaderMax.close();
+            bufferedReaderTIS.close();
+            bufferedReaderSched.close();
         }
 
         return result;
-    }
-
-    @Override
-    public Item getTag() {
-        return this.tag;
-    }
-
-    @Override
-    public List<Item> getInformations() {
-        return this.informations;
     }
 }
