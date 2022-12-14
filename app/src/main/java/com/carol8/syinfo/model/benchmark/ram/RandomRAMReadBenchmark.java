@@ -6,12 +6,12 @@ import com.carol8.syinfo.model.benchmark.Benchmark;
 public class RandomRAMReadBenchmark implements Benchmark {
     private final String category = "RAM";
     private final String name = "Random read";
-    private final int longCount, totalMillisReading;
+    private final int longCount, totalNanosReading;
     private volatile long[] longs;
 
     public RandomRAMReadBenchmark(int longCount, int totalMillisReading) {
         this.longCount = longCount;
-        this.totalMillisReading = totalMillisReading;
+        this.totalNanosReading = totalMillisReading * 1000000;
         this.longs = new long[longCount];
     }
 
@@ -32,20 +32,20 @@ public class RandomRAMReadBenchmark implements Benchmark {
 
     @Override
     public int run() {
-        return benchmarkRndRead(this.longCount, this.totalMillisReading);
+        return benchmarkRndRead(this.longCount, this.totalNanosReading);
     }
 
-    private int benchmarkRndRead(int longCount, int totalMillisWriting) {
+    private int benchmarkRndRead(int longCount, int totalNanosReading) {
         int runs = 0;
         long read;
         long initialGenerateTime;
-        long initialTime = System.currentTimeMillis();
+        long initialTime = System.nanoTime();
 
-        while(initialTime + totalMillisWriting > System.currentTimeMillis()) {
-            initialGenerateTime = System.currentTimeMillis();
+        while(initialTime + totalNanosReading > System.nanoTime()) {
+            initialGenerateTime = System.nanoTime();
             longs = ArrayGenerators.generateLongs(longCount);
             int[] indexes = ArrayGenerators.generateRandomIndexes(longCount);
-            initialTime += System.currentTimeMillis() - initialGenerateTime;
+            initialTime += System.nanoTime() - initialGenerateTime;
 //            Log.d("status", "seq copy, run " + runs + ", time remaining " + (initialTime + totalMillisWriting - System.currentTimeMillis()));
             for(int i = 0; i < longCount; i++){
                 read = longs[indexes[i]];

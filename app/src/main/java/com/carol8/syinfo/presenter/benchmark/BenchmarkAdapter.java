@@ -53,8 +53,6 @@ public class BenchmarkAdapter extends RecyclerView.Adapter<BenchmarkViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull BenchmarkViewHolder holder, int position) {
-        holder.setIsRecyclable(false);
-
         holder.checkbox.setText(benchmarkList.get(position).getFullName());
         if(selectAll){
             holder.checkbox.setChecked(true);

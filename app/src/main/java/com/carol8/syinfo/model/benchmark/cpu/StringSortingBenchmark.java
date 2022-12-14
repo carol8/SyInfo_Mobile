@@ -8,12 +8,12 @@ import java.util.Arrays;
 public class StringSortingBenchmark implements Benchmark {
     private final String category = "CPU";
     private final String name = "String sorting";
-    private final int stringCount, stringSize, totalMillisSorting;
+    private final int stringCount, stringSize, totalNanosSorting;
 
     public StringSortingBenchmark(int stringCount, int stringSize, int totalMillisSorting) {
         this.stringCount = stringCount;
         this.stringSize = stringSize;
-        this.totalMillisSorting = totalMillisSorting;
+        this.totalNanosSorting = totalMillisSorting * 1000000;
     }
 
     @Override
@@ -33,18 +33,18 @@ public class StringSortingBenchmark implements Benchmark {
 
     @Override
     public int run() {
-        return benchmarkSort(this.stringCount, this.stringSize, this.totalMillisSorting);
+        return benchmarkSort(this.stringCount, this.stringSize, this.totalNanosSorting);
     }
 
-    private int benchmarkSort(int stringCount, int stringSize, int totalMillisSorting) {
+    private int benchmarkSort(int stringCount, int stringSize, int totalNanosSorting) {
         int runs = 0;
         long initialGenerateTime;
-        long initialTime = System.currentTimeMillis();
+        long initialTime = System.nanoTime();
 
-        while(initialTime + totalMillisSorting > System.currentTimeMillis()) {
-            initialGenerateTime = System.currentTimeMillis();
+        while(initialTime + totalNanosSorting > System.nanoTime()) {
+            initialGenerateTime = System.nanoTime();
             String[] strings = ArrayGenerators.generateStrings(stringCount, stringSize);
-            initialTime += System.currentTimeMillis() - initialGenerateTime;
+            initialTime += System.nanoTime() - initialGenerateTime;
 //            Log.d("status", "sorting, run " + runs + ", time remaining " + (initialTime + totalMillisSorting - System.currentTimeMillis()));
             Arrays.sort(strings);
             runs++;

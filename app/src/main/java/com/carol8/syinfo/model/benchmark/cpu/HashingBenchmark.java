@@ -17,12 +17,12 @@ public class HashingBenchmark implements Benchmark {
     private final String name = "Hashing";
     private final int messageSize;
     private final int keySize;
-    private final int totalMillisEncrypting;
+    private final int totalNanosEncrypting;
 
     public HashingBenchmark(int messageSize, int keySize, int totalMillisEncrypting){
         this.messageSize = messageSize;
         this.keySize = keySize;
-        this.totalMillisEncrypting = totalMillisEncrypting;
+        this.totalNanosEncrypting = totalMillisEncrypting * 1000000;
     }
 
     @Override
@@ -42,22 +42,22 @@ public class HashingBenchmark implements Benchmark {
 
     @Override
     public int run() throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
-        return benchmarkHashing(this.messageSize, this.keySize, this.totalMillisEncrypting);
+        return benchmarkHashing(this.messageSize, this.keySize, this.totalNanosEncrypting);
     }
 
-    private int benchmarkHashing(int messageSize, int keySize, int totalMillisEncrypting) throws NoSuchAlgorithmException, InvalidKeyException {
+    private int benchmarkHashing(int messageSize, int keySize, int totalNanosEncrypting) throws NoSuchAlgorithmException, InvalidKeyException {
         int runs = 0;
         long initialGenerateTime;
-        long initialTime = System.currentTimeMillis();
+        long initialTime = System.nanoTime();
         Mac sha256HMAC = Mac.getInstance("HmacSHA256");
         SecretKeySpec secretKeySpec;
         byte[] key, message;
 
-        while(initialTime + totalMillisEncrypting > System.currentTimeMillis()) {
-            initialGenerateTime = System.currentTimeMillis();
+        while(initialTime + totalNanosEncrypting > System.nanoTime()) {
+            initialGenerateTime = System.nanoTime();
             message = ArrayGenerators.generateBytes(messageSize);
             key = ArrayGenerators.generateBytes(keySize);
-            initialTime += System.currentTimeMillis() - initialGenerateTime;
+            initialTime += System.nanoTime() - initialGenerateTime;
 //            Log.d("status", "encrypting, run " + runs + ", time remaining " + (initialTime + totalMillisEncrypting - System.currentTimeMillis()));
             secretKeySpec = new SecretKeySpec(key, "HmacSHA256");
             sha256HMAC.init(secretKeySpec);

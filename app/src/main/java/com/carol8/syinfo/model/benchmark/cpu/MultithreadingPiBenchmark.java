@@ -12,12 +12,12 @@ import java.util.concurrent.Future;
 public class MultithreadingPiBenchmark implements Benchmark {
     private final String category = "CPU";
     private final String name = "Multithreading";
-    private final int threadCount, infinity, totalMillisCalculating;
+    private final int threadCount, infinity, totalNanosCalculating;
 
     public MultithreadingPiBenchmark(int threadCount, int infinity, int totalMillisCalculating){
         this.threadCount = threadCount;
         this.infinity = infinity;
-        this.totalMillisCalculating = totalMillisCalculating;
+        this.totalNanosCalculating = totalMillisCalculating * 1000000;
     }
 
     @Override
@@ -37,10 +37,10 @@ public class MultithreadingPiBenchmark implements Benchmark {
 
     @Override
     public int run() throws ExecutionException, InterruptedException {
-        return benchmarkPi(this.threadCount, this.infinity, this.totalMillisCalculating);
+        return benchmarkPi(this.threadCount, this.infinity, this.totalNanosCalculating);
     }
 
-    private int benchmarkPi(int threadCount, int infinity, int totalMillisCalculating) throws ExecutionException, InterruptedException {
+    private int benchmarkPi(int threadCount, int infinity, int totalNanosCalculating) throws ExecutionException, InterruptedException {
         int totalRuns = 0;
         List<Future<Integer>> futureList = new ArrayList<>();
         if(threadCount == -1){
@@ -51,8 +51,8 @@ public class MultithreadingPiBenchmark implements Benchmark {
             int finalI = i;
             futureList.add(executorService.submit(() -> {
                 int runs = 0;
-                long initialTime = System.currentTimeMillis();
-                while(initialTime + totalMillisCalculating > System.currentTimeMillis()) {
+                long initialTime = System.nanoTime();
+                while(initialTime + totalNanosCalculating > System.nanoTime()) {
 //                    Log.d("status", "pi, thread " + finalI + ", run " + runs + ", time remaining " + (initialTime + totalMillisCalculating - System.currentTimeMillis()));
                     nthPiDigit(runs, infinity);
                     runs++;
@@ -61,7 +61,7 @@ public class MultithreadingPiBenchmark implements Benchmark {
             }));
         }
         for(int i = 0; i < threadCount; i++){
-            totalRuns += futureList.get(0).get();
+            totalRuns += futureList.get(i).get();
         }
         return totalRuns;
     }

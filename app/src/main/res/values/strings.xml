@@ -7,4 +7,5 @@
     <string name="benchmark_start_button_stopped">Start Benchmarks</string>
     <string name="benchmark_start_button_running">Stop Benchmarks</string>
     <string name="item_label_placeholder">property</string>
+    <string name="progress_text_benchmark_stopped">Benchmarks stopped</string>
 </resources>
