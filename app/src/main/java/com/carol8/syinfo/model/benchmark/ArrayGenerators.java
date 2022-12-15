@@ -17,7 +17,7 @@ public class ArrayGenerators {
 
     public static long[] generateLongs(int size){
         long[] longs = new long[size];
-        Random random = new Random();
+        Random random = new Random(System.nanoTime());
         for(int i = 0; i < size; i++){
             longs[i] = random.nextLong();
         }
@@ -25,7 +25,7 @@ public class ArrayGenerators {
     }
 
     public static byte[] generateBytes(int size){
-        Random random = new Random();
+        Random random = new Random(System.nanoTime());
         byte[] bytes = new byte[size];
         random.nextBytes(bytes);
         return bytes;
@@ -34,7 +34,7 @@ public class ArrayGenerators {
     public static String[] generateStrings(int numberOfStrings, int stringSize){
         int leftLimit = 48; // letter 'a'
         int rightLimit = 122; // letter 'z'
-        Random random = new Random();
+        Random random = new Random(System.nanoTime());
 
         String[] generatedStrings = new String[numberOfStrings];
         for(int i = 0; i < numberOfStrings; i++) {

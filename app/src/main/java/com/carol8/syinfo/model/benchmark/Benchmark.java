@@ -3,6 +3,7 @@ package com.carol8.syinfo.model.benchmark;
 public interface Benchmark extends Comparable<Benchmark> {
     String getName();
     String getCategory();
+
     int getMultipler();
     int run() throws Exception;
 

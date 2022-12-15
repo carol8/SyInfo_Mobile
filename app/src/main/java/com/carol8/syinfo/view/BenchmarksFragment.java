@@ -54,17 +54,17 @@ public class BenchmarksFragment extends Fragment {
     );
 
     private final Map<String, Double> benchmarkMultipliers = Map.ofEntries(
-            Map.entry("Hashing (CPU)", 1.0)
-            , Map.entry("Multithreading (CPU)", 1.0)
-            , Map.entry("String sorting (CPU)", 1.0)
-            , Map.entry("Random read (RAM)", 1.0)
-            , Map.entry("Random write (RAM)", 1.0)
-            , Map.entry("Sequential read (RAM)", 1.0)
-            , Map.entry("Sequential write (RAM)", 1.0)
-            , Map.entry("Random read (Storage)", 1.0)
-            , Map.entry("Random write (Storage)", 1.0)
-            , Map.entry("Sequential read (Storage)", 1.0)
-            , Map.entry("Sequential write (Storage)", 1.0)
+            Map.entry("Hashing (CPU)", 0.9761)
+            , Map.entry("Multithreading (CPU)", 13.03)
+            , Map.entry("String sorting (CPU)", 13.03)
+            , Map.entry("Random read (RAM)", 0.6738)
+            , Map.entry("Random write (RAM)", 1.506)
+            , Map.entry("Sequential read (RAM)", 44.52)
+            , Map.entry("Sequential write (RAM)", 100.4)
+            , Map.entry("Random read (Storage)", 2.621)
+            , Map.entry("Random write (Storage)", 4.275)
+            , Map.entry("Sequential read (Storage)", 13.51)
+            , Map.entry("Sequential write (Storage)", 41.80)
     );
 
     private State state = State.STOPPED;
@@ -159,14 +159,14 @@ public class BenchmarksFragment extends Fragment {
         benchmarkAdapter.addBenchmark(new HashingBenchmark(1000, 1000, 1000));
         benchmarkAdapter.addBenchmark(new MultithreadingPiBenchmark(-1, 100, 1000));
         benchmarkAdapter.addBenchmark(new StringSortingBenchmark(1000, 25, 1000));
-        benchmarkAdapter.addBenchmark(new RandomRAMReadBenchmark(1048576, 200));
-        benchmarkAdapter.addBenchmark(new RandomRAMWriteBenchmark(1048576, 200));
-        benchmarkAdapter.addBenchmark(new SequentialRAMReadBenchmark(1048576, 200));
-        benchmarkAdapter.addBenchmark(new SequentialRAMWriteBenchmark(1048576, 200));
+        benchmarkAdapter.addBenchmark(new RandomRAMReadBenchmark(1024, 200));
+        benchmarkAdapter.addBenchmark(new RandomRAMWriteBenchmark(1024, 200));
+        benchmarkAdapter.addBenchmark(new SequentialRAMReadBenchmark(-1,1048576, 1000));
+        benchmarkAdapter.addBenchmark(new SequentialRAMWriteBenchmark(-1,1048576, 1000));
         benchmarkAdapter.addBenchmark(new RandomStorageReadBenchmark(16 * 1024, 1, 1000, getContext()));
         benchmarkAdapter.addBenchmark(new RandomStorageWriteBenchmark(16 * 1024, 1, 1000, getContext()));
-        benchmarkAdapter.addBenchmark(new SequentialStorageReadBenchmark(64 * 1024 * 1024, 1000, getContext()));
-        benchmarkAdapter.addBenchmark(new SequentialStorageWriteBenchmark(64 * 1024 * 1024, 10000, getContext()));
+        benchmarkAdapter.addBenchmark(new SequentialStorageReadBenchmark(1048576, 1000, getContext()));
+        benchmarkAdapter.addBenchmark(new SequentialStorageWriteBenchmark(1048576, 1000, getContext()));
 
         return v;
     }

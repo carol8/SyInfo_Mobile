@@ -11,12 +11,12 @@ import java.io.IOException;
 public class SequentialStorageWriteBenchmark implements Benchmark {
     private final String category = "Storage";
     private final String name = "Sequential write";
-    private final int byteCount, totalMillisWriting;
+    private final int byteCount, totalNanosWriting;
     private final Context context;
 
     public SequentialStorageWriteBenchmark(int byteCount, int totalMillisWriting, Context context) {
         this.byteCount = byteCount;
-        this.totalMillisWriting = totalMillisWriting;
+        this.totalNanosWriting = totalMillisWriting * 1000000;
         this.context = context;
     }
 
@@ -37,23 +37,24 @@ public class SequentialStorageWriteBenchmark implements Benchmark {
 
     @Override
     public int run() throws IOException {
-        return benchmarkSeqWrite(this.byteCount, this.totalMillisWriting, this.context);
+        return benchmarkSeqWrite(this.byteCount, this.totalNanosWriting, this.context);
     }
 
-    private int benchmarkSeqWrite(int byteCount, int totalMillisWriting, Context context) throws IOException {
+    private int benchmarkSeqWrite(int byteCount, int totalNanosWriting, Context context) throws IOException {
         int runs = 0;
         long initialGenerateTime;
         FileOutputStream fileOutputStream;
         String tempFilename = "writeSeq.txt";
-        long initialTime = System.currentTimeMillis();
+        long initialTime = System.nanoTime();
 
-        while(initialTime + totalMillisWriting > System.currentTimeMillis()) {
-            initialGenerateTime = System.currentTimeMillis();
+        while(initialTime + totalNanosWriting > System.nanoTime()) {
+            initialGenerateTime = System.nanoTime();
             byte[] bytes = ArrayGenerators.generateBytes(byteCount);
-            initialTime += System.currentTimeMillis() - initialGenerateTime;
-//            Log.d("status", "seq copy, run " + runs + ", time remaining " + (initialTime + totalMillisWriting - System.currentTimeMillis()));
+            initialTime += System.nanoTime() - initialGenerateTime;
+//            Log.d("status", "seq copy, run " + runs + ", time remaining " + (initialTime + totalMillisWriting - System.nanoTime()));
             fileOutputStream = context.openFileOutput(tempFilename, Context.MODE_PRIVATE);
             fileOutputStream.write(bytes);
+            fileOutputStream.flush();
             fileOutputStream.close();
             runs++;
         }

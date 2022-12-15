@@ -2,6 +2,7 @@ package com.carol8.syinfo.presenter.benchmark;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.carol8.syinfo.model.Item;
 import com.carol8.syinfo.model.benchmark.Benchmark;
@@ -56,7 +57,8 @@ public class BenchmarksRunner {
                 adjustedBenchmarkScore = benchmarkScore
                         .multiply(BigDecimal.valueOf(categoryMultipliers.get(benchmark.getCategory())))
                         .multiply(BigDecimal.valueOf(benchmarkMultipliers.get(benchmark.getFullName())));
-                totalScore = totalScore.add(benchmarkScore);
+                Log.d("BENCHMARK" , benchmark.getFullName() + ": " + adjustedBenchmarkScore);
+                totalScore = totalScore.add(adjustedBenchmarkScore);
                 if (category == null) {
                     category = benchmark.getCategory();
                     insertIndex = 0;
@@ -71,9 +73,9 @@ public class BenchmarksRunner {
                 } else {
                     categoryScore = categoryScore.add(adjustedBenchmarkScore);
                 }
-                if(benchmark.getName().contains("Sequential") && (benchmark.getCategory().equals("RAM") || benchmark.getCategory().equals("Storage"))){
-                    BigDecimal adjustedResult = benchmarkScore.multiply(BigDecimal.valueOf(benchmark.getMultipler()).divide(BigDecimal.valueOf(1048576)));
-                    results.add(new Item(benchmark.getFullName(), List.of(decimalFormat.format(adjustedResult) + " MB/s")));
+                if(benchmark.getName().contains("Sequential") && benchmark.getCategory().equals("RAM")){
+                    BigDecimal adjustedMBps = benchmarkScore.multiply(BigDecimal.valueOf(benchmark.getMultipler()).multiply(BigDecimal.valueOf(1)).divide(BigDecimal.valueOf(1048576)));
+                    results.add(new Item(benchmark.getFullName(), List.of(decimalFormat.format(adjustedMBps) + " MB/s")));
                 }
                 else {
                     results.add(new Item(benchmark.getFullName(), List.of(decimalFormat.format(adjustedBenchmarkScore))));
